@@ -1,6 +1,8 @@
+using SkynetApp.API.Models;
+
 namespace SkynetApp.API.Services;
 
 public interface IProductService
 {
-    public string GetAllProducts();
+    public Task<IEnumerable<Product>> GetAllProducts();
 }

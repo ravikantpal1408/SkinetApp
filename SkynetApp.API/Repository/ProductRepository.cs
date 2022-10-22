@@ -1,11 +1,22 @@
+using Dapper;
+using SkynetApp.API.Data;
+using SkynetApp.API.Models;
 using SkynetApp.API.Services;
 
 namespace SkynetApp.API.Repository;
 
 public class ProductRepository : IProductService
 {
-    public string GetAllProducts()
+    private readonly SkynetDbContext _context;
+    public ProductRepository(SkynetDbContext context)
     {
-        return "delivered all the products";
+        _context = context;
+    }
+    public async Task<IEnumerable<Product>> GetAllProducts()
+    {
+        string sql = @"SELECT * FROM tblProduct";
+        using var conn = _context.CreateConnection();
+        var result = await conn.QueryAsync<Product>(sql);
+        return result;
     }
 }
