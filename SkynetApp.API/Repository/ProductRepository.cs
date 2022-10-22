@@ -19,4 +19,12 @@ public class ProductRepository : IProductService
         var result = await conn.QueryAsync<Product>(sql);
         return result;
     }
+
+    public async Task<IEnumerable<Product>> GetProduct(int id)
+    {
+        string sql = @"SELECT * FROM tblProduct WHERE Id = " + id.ToString();
+        using var conn = _context.CreateConnection();
+        var result = await conn.QueryAsync<Product>(sql);
+        return result;
+    }
 }
