@@ -22,7 +22,7 @@ public class ProductController : ControllerBase
         return Ok(res);
     }
 
-    [HttpGet("product{id}")]
+    [HttpGet("product")]
     public async Task<IActionResult> GetProduct(int id)
     {
         var res = await _product.GetProduct(id);
