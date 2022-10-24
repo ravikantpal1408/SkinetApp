@@ -9,7 +9,7 @@ public class SkynetDbContext
     
     public SkynetDbContext(IConfiguration configuration)
     {
-        _connectionString = configuration.GetConnectionString("DefaultConnection");
+        _connectionString = configuration.GetConnectionString("DefaultConnectionPC");
     }
 
     public IDbConnection CreateConnection() => new SqlConnection(_connectionString);
