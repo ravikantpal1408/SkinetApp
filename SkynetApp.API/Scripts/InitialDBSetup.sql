@@ -1,7 +1,7 @@
 CREATE DATABASE skinetDB;
-
+GO
 USE skinetDB;
-
+GO
 CREATE TABLE [dbo].[tblProduct]
 (
 	[Id] BIGINT PRIMARY KEY IDENTITY(1,1),
@@ -13,3 +13,7 @@ CREATE TABLE [dbo].[tblProduct]
 	[Brand] VARCHAR(50),
 	[QuantityInStock] INT
 );
+
+
+ALTER TABLE [tblProduct]
+ALTER COLUMN [Price] DECIMAL(18, 4);
