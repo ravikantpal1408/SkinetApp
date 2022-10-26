@@ -38,6 +38,11 @@ namespace SkynetApp.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPIv5", Version = "v1" });
             });
             services.AddScoped<IProductService, ProductRepository>();
+            /*
+             AddSingleton -> The object creation or the instance will remain same throughout the life span of application 
+             AddScoped -> The object will be same of each request 
+             AddTransient -> The object will be different for different request             
+             */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

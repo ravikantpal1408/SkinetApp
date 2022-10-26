@@ -25,6 +25,17 @@ public class ProductRepository : IProductService
         string sql = @"SELECT * FROM tblProduct WHERE Id = " + id.ToString();
         using var conn = _context.CreateConnection();
         var result = await conn.QueryAsync<Product>(sql);
-        return result;
+
+        var filteredRecords = new List<Product>();
+
+        foreach (var item in result)
+        {
+            if(item.Price>10)
+            {
+                filteredRecords.Add(item);
+            }
+        }
+
+        return filteredRecords;
     }
 }
