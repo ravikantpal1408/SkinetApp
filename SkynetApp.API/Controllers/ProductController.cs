@@ -19,6 +19,7 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> GetAllProduct()
     {
         var res = await _product.GetAllProducts();
+        throw new Exception("custom error happening here");
         return Ok(res);
     }
 
