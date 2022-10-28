@@ -39,6 +39,7 @@ namespace SkynetApp.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPIv5", Version = "v1" });
             });
             services.AddScoped<IProductService, ProductRepository>();
+            services.AddScoped<IAccountService, AccountRepository>();
             /*
              AddSingleton -> The object creation or the instance will remain same throughout the life span of application 
              AddScoped -> The object will be same of each request 

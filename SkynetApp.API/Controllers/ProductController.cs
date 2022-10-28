@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using SkynetApp.API.Models;
 using SkynetApp.API.Services;
 
 namespace SkynetApp.API.Controllers;
+
 
 [ApiController]
 [Route("api/[controller]")]
@@ -19,7 +19,7 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> GetAllProduct()
     {
         var res = await _product.GetAllProducts();
-        throw new Exception("custom error happening here");
+        //throw new Exception("custom error happening here");
         return Ok(res);
     }
 
