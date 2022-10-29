@@ -1,4 +1,5 @@
 ﻿using System.CodeDom.Compiler;
+using System.ComponentModel.DataAnnotations;
 
 namespace SkynetApp.API.Models
 {
@@ -8,8 +9,9 @@ namespace SkynetApp.API.Models
         {
             Id = Generate();
         }
-
-        public Guid Id { get; set; } 
+        [Required]
+        public Guid Id { get; set; }
+        [Required]
         public string Username { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }

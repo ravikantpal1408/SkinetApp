@@ -29,5 +29,7 @@ public class ProductController : ControllerBase
         var res = await _product.GetProduct(id);
         return Ok(res);
     }
+
+    // ASSIGNMENT ( create an API to insert product into the DB )
     
 }
