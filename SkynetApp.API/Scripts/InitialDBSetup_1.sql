@@ -2,6 +2,10 @@ CREATE DATABASE skinetDB;
 GO
 USE skinetDB;
 GO
+
+DROP TABLE IF EXISTS tblProduct;
+GO
+
 CREATE TABLE [dbo].[tblProduct]
 (
 	[Id] BIGINT PRIMARY KEY IDENTITY(1,1),

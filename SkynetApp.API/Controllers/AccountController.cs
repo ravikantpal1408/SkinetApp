@@ -21,7 +21,6 @@ namespace SkynetApp.API.Controllers
         {
             var newUser = new AppUser()
             {
-                Id = Convert.ToString(new Guid()),
                 Username = user.Username,
             };
             var response = await _accountService.RegisterAsync(newUser, user.Password);

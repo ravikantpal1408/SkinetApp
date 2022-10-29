@@ -2,6 +2,7 @@
 using SkynetApp.API.Data;
 using SkynetApp.API.Models;
 using SkynetApp.API.Services;
+using System.Data;
 
 namespace SkynetApp.API.Repository
 {
@@ -26,7 +27,14 @@ namespace SkynetApp.API.Repository
 
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
             var result = await connection.QueryAsync<AppUser>("spRegisterUser",
-                new { Id = appUser.Id, Username = appUser.Username, PasswordHash = appUser.PasswordHash, PasswordSalt = appUser.PasswordSalt });
+                new 
+                { 
+                    Id = appUser.Id, 
+                    Username = appUser.Username, 
+                    PasswordHash = passwordHash, 
+                    PasswordSalt = passwordSalt
+                }
+                , commandType: CommandType.StoredProcedure);
 
             return result;
         }

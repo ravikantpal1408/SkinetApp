@@ -1,10 +1,11 @@
 USE skinetDB;
 GO
-
+DROP TABLE IF EXISTS tblAppUser;
+GO
 CREATE TABLE tblAppUser
 (
-	Id NVARCHAR(255) PRIMARY KEY ,
-	Username VARCHAR(100) not null unique,
+	Id  UNIQUEIDENTIFIER, -- GUID for in the C# code 
+	Username VARCHAR(100) PRIMARY KEY ,
 	PasswordHash BINARY(64) not null ,
 	PasswordSalt BINARY(128) not null,
 	CreatedBy VARCHAR(100) ,
