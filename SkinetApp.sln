@@ -1,6 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkynetApp.API", "SkynetApp.API\SkynetApp.API.csproj", "{4DC62488-E8DA-415A-863A-F4A46E50BB73}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkynetApp.API", "SkynetApp.API\SkynetApp.API.csproj", "{4DC62488-E8DA-415A-863A-F4A46E50BB73}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "client", "Client\Client\client.esproj", "{B6F50E49-749C-4E67-9B22-7558AB21F8FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +17,17 @@ Global
 		{4DC62488-E8DA-415A-863A-F4A46E50BB73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DC62488-E8DA-415A-863A-F4A46E50BB73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DC62488-E8DA-415A-863A-F4A46E50BB73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6F50E49-749C-4E67-9B22-7558AB21F8FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6F50E49-749C-4E67-9B22-7558AB21F8FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6F50E49-749C-4E67-9B22-7558AB21F8FE}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B6F50E49-749C-4E67-9B22-7558AB21F8FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6F50E49-749C-4E67-9B22-7558AB21F8FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6F50E49-749C-4E67-9B22-7558AB21F8FE}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {14B3ED34-8127-4730-A6DB-7887C3741EE0}
 	EndGlobalSection
 EndGlobal
