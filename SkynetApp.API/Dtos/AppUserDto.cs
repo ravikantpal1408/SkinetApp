@@ -5,7 +5,9 @@ namespace SkynetApp.API.Dtos
     public class AppUserDto
     {
         [Required]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
+        [Required]
+        public Guid UserId { get; set; }
         [Required]
         public string Username { get; set; }
         public string CreadedBy { get; set; }

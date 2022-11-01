@@ -7,10 +7,11 @@ namespace SkynetApp.API.Models
     {
         public AppUser()
         {
-            Id = Generate();
+            UserId = Generate();
         }
         [Required]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
+        public Guid UserId { get; set; }
         [Required]
         public string Username { get; set; }
         public byte[] PasswordHash { get; set; }

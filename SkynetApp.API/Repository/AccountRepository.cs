@@ -30,12 +30,11 @@ namespace SkynetApp.API.Repository
             var result = await connection.QueryAsync<AppUser>("spRegisterUser",
                 new 
                 { 
-                    Id = appUser.Id, 
+                    UserId = appUser.UserId,
                     Username = appUser.Username, 
                     PasswordHash = passwordHash, 
                     PasswordSalt = passwordSalt
-                }
-                , commandType: CommandType.StoredProcedure);
+                } , commandType: CommandType.StoredProcedure);
 
             return result;
         }
@@ -43,7 +42,8 @@ namespace SkynetApp.API.Repository
         public async Task<AppUserDto> LoginAsync(string username, string password)
         {
             using var connection = _context.CreateConnection();
-            var userRow = await connection.QueryAsync<AppUser>($"SELECT * FROM tblAppUser WHERE Username = @Username AND IsActive=1",
+            var userRow = await connection.QueryAsync<AppUser>
+                ($"SELECT * FROM tblAppUser WHERE Username = @Username AND IsActive=1",
                 new { Username  = username });
             if(!userRow.Any())
             {
@@ -54,6 +54,7 @@ namespace SkynetApp.API.Repository
             var response = new AppUserDto
             {
                 Id = user.Id,
+                UserId = user.UserId,
                 Username = user.Username,
                 CreadedBy = user.CreadedBy,
                 CreatedDate = user.CreatedDate,

@@ -4,8 +4,9 @@ DROP TABLE IF EXISTS tblAppUser;
 GO
 CREATE TABLE tblAppUser
 (
-	Id  UNIQUEIDENTIFIER, -- GUID for in the C# code 
-	Username VARCHAR(100) PRIMARY KEY ,
+	Id  INT PRIMARY KEY IDENTITY(1,1),
+	UserId  UNIQUEIDENTIFIER, -- GUID for in the C# code 
+	Username VARCHAR(100) NOT NULL UNIQUE,
 	PasswordHash BINARY(64) not null ,
 	PasswordSalt BINARY(128) not null,
 	CreatedBy VARCHAR(100) ,
