@@ -28,7 +28,7 @@ namespace SkynetApp.API
             Configuration = configuration;
         }
         // SOLID PRINCIPLE OR RULES 
-        
+
         // S-> SINGLE RESPONSIBILITY PRINCIPLE  
         public IConfiguration Configuration { get; }
 
@@ -55,7 +55,7 @@ namespace SkynetApp.API
                     ValidIssuer = Configuration["Jwt:Issuer"],
                     ValidAudience = Configuration["Jwt:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
-                    
+
                 };
             });
             #endregion end
@@ -93,6 +93,21 @@ namespace SkynetApp.API
 
             services.AddScoped<IProductService, ProductRepository>();
             services.AddScoped<IAccountService, AccountRepository>();
+
+            services.AddCors(p =>
+            {
+                p.AddPolicy("CorsPolicy", policy =>
+               {
+                   policy.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin()
+                    .WithExposedHeaders("WWW-Authenticate")
+                    .WithOrigins("http://localhost:3000/")
+                    .SetIsOriginAllowed(_ => true)
+                    .AllowCredentials();
+               });
+            });
+
             /*
              AddSingleton -> The object creation or the instance will remain same throughout the life span of application 
              AddScoped -> The object will be same of each request 
@@ -104,7 +119,7 @@ namespace SkynetApp.API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<ErrorMiddleware>();
-
+            app.UseCors("CorsPolicy");
             if (env.IsDevelopment())
             {
                 //app.UseDeveloperExceptionPage();
