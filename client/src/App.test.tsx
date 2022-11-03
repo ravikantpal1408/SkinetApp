@@ -7,3 +7,4 @@ test('renders learn react link', () => {
   const linkElement = screen.getByText(/Hello there skinet 😊😊/i);
   expect(linkElement).toBeInTheDocument();
 });
+// JEST

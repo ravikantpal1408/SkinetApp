@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using SkynetApp.API.Models;
 using SkynetApp.API.Services;
+using System.Text.Json.Serialization;
+using Newtonsoft;
 
 namespace SkynetApp.API.Controllers;
 
@@ -20,6 +23,7 @@ public class ProductController : ControllerBase
     {
         var res = await _product.GetAllProducts();
         //throw new Exception("custom error happening here");
+        //var result = JsonConverter
         return Ok(res);
     }
 
