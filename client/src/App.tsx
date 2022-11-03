@@ -16,7 +16,7 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   componentDidMount(): void {
-    axios.get('https://localhost:44396/api/Product/products').then(res => {
+    axios.get('https://localhost:5001/api/Product/products').then(res => {
       this.setState({
         data: res.data
       }, () => {
