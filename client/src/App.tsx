@@ -19,12 +19,8 @@ class App extends React.Component<AppProps, AppState> {
     axios.get('https://localhost:5001/api/Product/products').then(res => {
       this.setState({
         data: res.data
-      }, () => {
-        console.log(this.state.data)
-      })
-
-    })
-
+      });
+    });
   }
 
   render() {
