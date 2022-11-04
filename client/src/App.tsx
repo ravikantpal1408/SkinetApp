@@ -25,7 +25,7 @@ class App extends React.Component<AppProps, AppState> {
 
   render() {
 
-    const products = this.state?.data || []
+    const products: any[] = this.state?.data || []
     
     return (
       <>
