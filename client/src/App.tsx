@@ -1,48 +1,83 @@
 ﻿import axios from 'axios';
-import React from 'react';
-interface AppProps {
-  
-}
+import React, { useEffect, useState } from 'react';
 
-interface AppState {
-  data: []
-}
-class App extends React.Component<AppProps, AppState> {
 
-  constructor(props: any) {
-    super(props);
-  
+function App () {
+  const [data, setData] = useState<any[]>([]);
 
-  }
-
-  componentDidMount(): void {
+  useEffect(()=>{
     axios.get('https://localhost:44396/api/Product/products').then(res => {
-      this.setState({
-        data: res.data
-      }, () => {
-        console.log(this.state.data)
-      })
+      setData(res.data);
+    }).catch(er => console.error(er));
+  },[])
 
-    })
-
-  }
-
-  render() {
-
-    const products = this.state?.data || []
-    
-    return (
-      <>
-      
-        <h1>Hello there skinet 😊😊</h1>
-        {this.state?.data != null ? (<h2>data is present</h2>) : ''} 
-        {products.map( (e,i)=> 
-          <h3 key={i}>Product Description : {i} </h3>
-        )}
-      </>
-    );
-  }
-
+  return(
+    <>
+      <div>Skinet App</div>
+      <ul>
+          {
+              data.map((el, i)=> 
+                  (<li key={i}>{el.name}</li>)
+              )
+          }
+      </ul>
+    </>
+  )
 }
+
+
+// interface AppProps {
+
+// }
+
+// interface AppState {
+//   data: []
+// }
+// class App extends React.Component<AppProps, AppState> {
+
+//   // constructor(props: any) {
+//   //   super(props);
+//   // }
+
+//   componentDidMount(): void {
+//     /* reduce , find  */
+//     // fetch('https://localhost:44396/api/Product/products').then(res =>
+//     //  res.json()
+//     // )
+//     // .then(da => {
+//     //   this.setState({
+//     //     data: da
+//     //   });
+//     // })
+//     //.catch(er => console.error(er));
+//     axios.get('https://localhost:44396/api/Product/products').then(res => {
+//       this.setState({
+//         data: res.data
+//       });
+//     }).catch(er => console.error(er));
+//   }
+
+//   render() {
+
+//     const products: any[] = this.state?.data || []
+
+//     let someVariable = products.filter(ele => {
+//       return ele.price > 10 ? ele.name : '';
+//     })
+
+//     return (
+//       <>
+
+//         <h1>Hello there skinet 😊😊</h1>
+//         {
+//           someVariable.map((e, i) => {
+//             return (<h2 key={i}>{e.name}</h2>)
+//           })
+//         }
+//       </>
+//     );
+//   }
+
+// }
 
 export default App;
