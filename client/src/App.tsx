@@ -1,44 +1,44 @@
-﻿import axios from 'axios';
-import React from 'react';
-interface AppProps {
+﻿import { ThemeProvider } from '@emotion/react';
+import { Container, createTheme, CssBaseline } from '@mui/material';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import Header from './Layout/Header';
+import Catalog from './Components/Catalog/Catalog';
+
+function App() {
+  const [data, setData] = useState<any[]>([]);
+  const [darkMode, setDarkMode] = useState(false);
+  const paletteType  = darkMode ? 'dark' : 'light'
+  const theme = createTheme({
+    palette: {
+      mode: paletteType,
+      background: {
+        default: paletteType === 'light' ? '#eaeaea' : '#121212'
+      }
+    }
+  })
+
   
-}
-
-interface AppState {
-  data: []
-}
-class App extends React.Component<AppProps, AppState> {
-
-  constructor(props: any) {
-    super(props);
-  
-
-  }
-
-  componentDidMount(): void {
+  useEffect(() => {
     axios.get('https://localhost:5001/api/Product/products').then(res => {
-      this.setState({
-        data: res.data
-      });
+      setData(res.data);
     });
+  }, []);
+
+  function handleThemeChange() {
+    setDarkMode(!darkMode);
   }
 
-  render() {
+  return <>
+    <ThemeProvider theme={theme}>
+       <CssBaseline />
+       <Header darkMode={darkMode} handleThemeChange={handleThemeChange} />
+       <Container>
+           <Catalog />
 
-    const products: any[] = this.state?.data || []
-    
-    return (
-      <>
-      
-        <h1>Hello there skinet 😊😊</h1>
-        {this.state?.data != null ? (<h2>data is present</h2>) : ''} 
-        {products.map( (e,i)=> 
-          <h3 key={i}>Product Description : {i} </h3>
-        )}
-      </>
-    );
-  }
-
+       </Container>
+     </ThemeProvider>
+  </>
 }
 
 export default App;

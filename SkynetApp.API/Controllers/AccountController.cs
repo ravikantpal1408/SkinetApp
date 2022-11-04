@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using SkynetApp.API.Dtos;
 using SkynetApp.API.Helper;
 using SkynetApp.API.Models;
 using SkynetApp.API.Services;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+
 
 namespace SkynetApp.API.Controllers
 {
@@ -75,9 +72,5 @@ namespace SkynetApp.API.Controllers
             }
            
         }
-
-        
-
-
     }
 }

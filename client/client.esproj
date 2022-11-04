@@ -12,6 +12,5 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="src\Components" />
-    <Folder Include="src\Layout" />
   </ItemGroup>
 </Project>
