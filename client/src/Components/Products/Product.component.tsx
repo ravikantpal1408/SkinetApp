@@ -10,21 +10,21 @@ interface Props {
 
     console.log('props ', products);
     return (
-    <>
+        <React.Fragment>        
         <Grid container spacing={4} >
             {
 
                 products.map(el => (
 
                     <Grid item xs={3} key={el.id} >
-                        <Card sx={{ maxWidth: 345 }}>
+                        <Card sx={{ maxWidth: 345 }} className='custom-margin'>
                             <CardMedia
                                 component="img"
                                 height="140"
                                 image={el.pictureUrl}
                                 alt={el.name}
                             />
-                            <CardContent>
+                            <CardContent className='upperBorder'>
                                 <Typography gutterBottom variant="h5" component="div">
                                     {el.name}
                                 </Typography>
@@ -32,7 +32,7 @@ interface Props {
                                     {el.description}
                                 </Typography>
                             </CardContent>
-                            <CardActions>
+                            <CardActions className='upperBorder'>
                                 <Button size="small">Share</Button>
                                 <Button size="small">Learn More</Button>
                             </CardActions>
@@ -44,7 +44,7 @@ interface Props {
             }
 
         </Grid>
-    </>
+        </React.Fragment>
     )
 }
 
