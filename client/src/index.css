@@ -11,12 +11,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-
-.custom-margin {
-  border: 1px solid black;
-}
-
-.upperBorder {
-  border-top: 1px solid black !important;
-}

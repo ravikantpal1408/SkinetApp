@@ -1,36 +1,37 @@
 ﻿import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import { Container } from '@mui/system';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import ProductList from './Components/Products/Product.component';
+import React, { useState } from 'react';
+import Catalog from './Components/Products/Catalog.component';
 import Header from './Layout/Header/Header';
-import { Products } from './Models/Products';
-
 
 function App() {
-  const [data, setData] = useState<Products[]>([]);
+  const [darkMode, setDarkMode] = useState(false);
+  const paletteType  = darkMode ? 'dark' : 'light'
 
-  useEffect(() => {
-    axios.get('https://localhost:44396/api/Product/products').then(res => {
-      setData(res.data);
+  
 
-    }).catch(er => console.error(er));
-  }, [])
-
-  const darkTheme = createTheme({
+  const theme = createTheme({
     palette: {
-      mode: 'light',
-    },
-  });
+      mode: paletteType,
+      background: {
+        default: paletteType === 'light' ? '#eaeaea' : '#121212'
+      }
+    }
+  })
+
+  function handleThemeChange() {
+    console.log('checking state of darkMode', !darkMode)
+    setDarkMode(!darkMode);
+  }
   return (
     <React.Fragment>
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Header />
+        <Header darkMode={darkMode} handleThemeChange={handleThemeChange} />
         <Container>
-          <ProductList products={data} />
+           <Catalog />
 
-        </Container>
+       </Container>
       </ThemeProvider>
 
     </React.Fragment>
