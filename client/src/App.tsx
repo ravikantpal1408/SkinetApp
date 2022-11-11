@@ -3,10 +3,11 @@ import { Container } from '@mui/system';
 import React, { useState } from 'react';
 import Catalog from './Components/Products/Catalog.component';
 import Header from './Layout/Header/Header';
+import SignIn from './Pages/SignIn';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
-  const paletteType  = darkMode ? 'dark' : 'light'
+  const paletteType  = darkMode ? 'dark' : 'light';
 
   
 
@@ -20,19 +21,20 @@ function App() {
   })
 
   function handleThemeChange() {
-    console.log('checking state of darkMode', !darkMode)
     setDarkMode(!darkMode);
   }
+
   return (
     <React.Fragment>
-      <ThemeProvider theme={theme}>
+      <SignIn/>
+      {/* <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header darkMode={darkMode} handleThemeChange={handleThemeChange} />
         <Container>
            <Catalog />
 
        </Container>
-      </ThemeProvider>
+      </ThemeProvider> */}
 
     </React.Fragment>
   )
