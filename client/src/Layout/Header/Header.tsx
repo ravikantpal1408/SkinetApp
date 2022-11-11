@@ -1,25 +1,18 @@
 import { AppBar, Button, IconButton, Switch, Toolbar, Typography } from '@mui/material';
 import React from 'react';
 
-export default function Header() 
+interface Props {
+  darkMode: boolean;
+  handleThemeChange: () => void;
+}
+export default function Header({darkMode, handleThemeChange}: Props) 
 {
-    return <React.Fragment>
-        <AppBar position="static" style={{marginBottom: '40px'}}>
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News   <Switch defaultChecked color='secondary'/>
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
-    </React.Fragment>
+    return <AppBar position='static' sx={{mb: 4}}>
+    <Toolbar>
+        <Typography variant='h6'>
+            SkiNet
+        </Typography>
+        <Switch checked={darkMode} onChange={handleThemeChange} />
+    </Toolbar>
+</AppBar>
 }
