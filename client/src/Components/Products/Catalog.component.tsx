@@ -10,7 +10,7 @@ import axios from 'axios';
      const [products, setProducts] = useState<Products[]>([]);
 
      useEffect(() => {
-        axios.get('https://localhost:44396/api/Product/products').then(res => {
+         axios.get('https://localhost:44396/api/Product').then(res => {
             setProducts(res.data);    
         }).catch(er => console.error(er));
       }, [])

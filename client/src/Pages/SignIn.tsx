@@ -49,9 +49,7 @@ export default function SignIn() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
         <Box
           sx={{
             marginTop: 8,
@@ -72,7 +70,7 @@ export default function SignIn() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="User Id"
               name="email"
               autoComplete="email"
               autoFocus
@@ -114,6 +112,5 @@ export default function SignIn() {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
   );
 }

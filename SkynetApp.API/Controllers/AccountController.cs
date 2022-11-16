@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using SkynetApp.API.Data;
 using SkynetApp.API.Dtos;
+using SkynetApp.API.Entities;
 using SkynetApp.API.Helper;
 using SkynetApp.API.Models;
 using SkynetApp.API.Services;
@@ -16,14 +19,37 @@ namespace SkynetApp.API.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IConfiguration _config;
-        public AccountController(IAccountService accountService, IConfiguration config)
+        private readonly UserManager<User> _userManager;
+        private readonly TokenService _tokenService;
+        private readonly StoreContext _context;
+        public AccountController(IAccountService accountService, IConfiguration config, UserManager<User> userManager, TokenService tokenService, StoreContext context)
         {
             _accountService = accountService;
             _config = config;
+            _context = context;
+            _tokenService = tokenService;
+            _userManager = userManager;
         }
-  
 
-        [HttpPost("register")]
+        [HttpPost("login")]
+        public async Task<ActionResult<UserViewDto>> Login(LoginDto loginDto)
+        {
+            var user = await _userManager.FindByNameAsync(loginDto.Username);
+
+            if (user == null || !await _userManager.CheckPasswordAsync(user, loginDto.Password))
+                return Unauthorized();
+
+          
+
+            return new UserViewDto
+            {
+                Email = user.Email,
+                Token = await _tokenService.GenerateToken(user),
+            };
+        }
+
+
+        [HttpPost("signup")]
         public async Task<IActionResult> Register(UserDto user)
         {
             if(string.IsNullOrEmpty(user.Password) && string.IsNullOrEmpty(user.Username))
@@ -44,7 +70,7 @@ namespace SkynetApp.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost("login")]
+        [HttpPost("signin")]
         public async Task<IActionResult> Login(UserDto user)
         {
             try
