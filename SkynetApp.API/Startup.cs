@@ -87,21 +87,7 @@ namespace SkynetApp.API
 
             services.AddScoped<IProductService, ProductRepository>();
             services.AddScoped<IAccountService, AccountRepository>();
-
-
-            services.AddCors(p =>
-            {
-                p.AddPolicy("CorsPolicy", policy =>
-               {
-                   policy.AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowAnyOrigin()
-                    .WithExposedHeaders("WWW-Authenticate")
-                    .WithOrigins("http://localhost:3000/")
-                    .SetIsOriginAllowed(_ => true)
-                    .AllowCredentials();
-               });
-            });
+            services.AddCors();
 
             /*
              AddSingleton -> The object creation or the instance will remain same throughout the life span of application 
@@ -144,7 +130,6 @@ namespace SkynetApp.API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<ErrorMiddleware>();
-            app.UseCors("CorsPolicy");
             if (env.IsDevelopment())
             {
                 //app.UseDeveloperExceptionPage();
@@ -155,6 +140,10 @@ namespace SkynetApp.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors(opt =>
+            {
+                opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();

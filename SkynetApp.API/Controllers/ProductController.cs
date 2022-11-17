@@ -13,9 +13,7 @@ using Microsoft.EntityFrameworkCore;
 namespace SkynetApp.API.Controllers;
 
 
-[ApiController]
-[Route("api/[controller]")]
-public class ProductController : ControllerBase
+public class ProductController : BaseApiController
 {
     private readonly IProductService _product;
     private readonly StoreContext _context;
@@ -29,19 +27,18 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<Product>>> GetProducts()
+    public async Task<ActionResult<List<Product>>> GetProducts([FromQuery] ProductParams productParams)
     {
-        //var query = _context.Products
-        //    .Sort(productParams.OrderBy)
-        //    .Search(productParams.SearchTerm)
-        //    .Filter(productParams.Brands, productParams.Types)
-        //    .AsQueryable();
+        var query = _context.Products
+                .Sort(productParams.OrderBy)
+                .Search(productParams.SearchTerm)
+                .Filter(productParams.Brands, productParams.Types)
+                .AsQueryable();
 
-        //var products = await PagedList<Product>.ToPagedList(query,
-        //    productParams.PageNumber, productParams.PageSize);
-        var products = await _context.Products.ToListAsync();
+        var products = await PagedList<Product>.ToPagedList(query,
+            productParams.PageNumber, productParams.PageSize);
 
-        //Response.AddPaginationHeader(products.MetaData);
+        Response.AddPaginationHeader(products.MetaData);
 
         return products;
     }
@@ -53,6 +50,15 @@ public class ProductController : ControllerBase
         if (product == null) return NotFound();
 
         return product;
+    }
+
+    [HttpGet("filters")]
+    public async Task<IActionResult> GetFilters()
+    {
+        var brands = await _context.Products.Select(p => p.Brand).Distinct().ToListAsync();
+        var types = await _context.Products.Select(p => p.Type).Distinct().ToListAsync();
+
+        return Ok(new { brands, types });
     }
 
     //[HttpGet("products")]
@@ -72,5 +78,5 @@ public class ProductController : ControllerBase
     //}
 
     // ASSIGNMENT ( create an API to insert product into the DB )
-    
+
 }
