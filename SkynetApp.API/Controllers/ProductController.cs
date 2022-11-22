@@ -26,7 +26,7 @@ public class ProductController : BaseApiController
         _context = context;
     }
 
-    [HttpGet]
+    [HttpGet ("products")]
     public async Task<ActionResult<List<Product>>> GetProducts([FromQuery] ProductParams productParams)
     {
         var query = _context.Products
@@ -43,7 +43,7 @@ public class ProductController : BaseApiController
         return products;
     }
 
-    [HttpGet("{id}", Name = "GetProduct")]
+    [HttpGet("{id}", Name = "products")]
     public async Task<ActionResult<Product>> GetProduct(int id)
     {
         var product = await _context.Products.FindAsync(id);

@@ -1,109 +1,105 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
 using SkynetApp.API.Data;
 using SkynetApp.API.Dtos;
 using SkynetApp.API.Entities;
+using SkynetApp.API.Extensions;
 using SkynetApp.API.Helper;
-using SkynetApp.API.Models;
-using SkynetApp.API.Services;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+
 
 namespace SkynetApp.API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class AccountController : ControllerBase
+    public class AccountController : BaseApiController
     {
-        private readonly IAccountService _accountService;
-        private readonly IConfiguration _config;
         private readonly UserManager<User> _userManager;
         private readonly TokenService _tokenService;
         private readonly StoreContext _context;
-        public AccountController(IAccountService accountService, IConfiguration config, UserManager<User> userManager, TokenService tokenService, StoreContext context)
+        public AccountController(UserManager<User> userManager, TokenService tokenService, StoreContext context)
         {
-            _accountService = accountService;
-            _config = config;
             _context = context;
             _tokenService = tokenService;
             _userManager = userManager;
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserViewDto>> Login(LoginDto loginDto)
+        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await _userManager.FindByNameAsync(loginDto.Username);
 
             if (user == null || !await _userManager.CheckPasswordAsync(user, loginDto.Password))
                 return Unauthorized();
 
-          
+            var userBasket = await RetrieveBasket(loginDto.Username);
+            var anonBasket = await RetrieveBasket(Request.Cookies["buyerId"]);
 
-            return new UserViewDto
+            if (anonBasket != null)
+            {
+                if (userBasket != null) _context.Baskets.Remove(userBasket);
+                anonBasket.BuyerId = user.UserName;
+                Response.Cookies.Delete("buyerId");
+                await _context.SaveChangesAsync();
+            }
+
+            return new UserDto
             {
                 Email = user.Email,
                 Token = await _tokenService.GenerateToken(user),
+                Basket = anonBasket != null ? anonBasket.MapBasketToDto() : userBasket?.MapBasketToDto()
             };
         }
 
-
-        [HttpPost("signup")]
-        public async Task<IActionResult> Register(UserDto user)
+        [HttpPost("register")]
+        public async Task<ActionResult> Register(RegisterDto registerDto)
         {
-            if(string.IsNullOrEmpty(user.Password) && string.IsNullOrEmpty(user.Username))
+            var user = new User { UserName = registerDto.Username, Email = registerDto.Email };
+
+            var result = await _userManager.CreateAsync(user, registerDto.Password);
+
+            if (!result.Succeeded)
             {
-                return BadRequest();
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
+
+                return ValidationProblem();
             }
-            var newUser = new AppUser()
+
+            await _userManager.AddToRoleAsync(user, "Member");
+
+            return StatusCode(201);
+        }
+
+        [Authorize]
+        [HttpGet("currentUser")]
+        public async Task<ActionResult<UserDto>> GetCurrentUser()
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            var userBasket = await RetrieveBasket(User.Identity.Name);
+
+            return new UserDto
             {
-                Username = user.Username,
+                Email = user.Email,
+                Token = await _tokenService.GenerateToken(user),
+                Basket = userBasket?.MapBasketToDto()
             };
-            var response = await _accountService.RegisterAsync(newUser, user.Password);
-
-            if(response == null)
-            {
-                return BadRequest();
-            }
-
-            return Ok(response);
         }
 
-        [HttpPost("signin")]
-        public async Task<IActionResult> Login(UserDto user)
+        private async Task<Basket> RetrieveBasket(string buyerId)
         {
-            try
+            if (string.IsNullOrEmpty(buyerId))
             {
-                if (string.IsNullOrEmpty(user.Password) && string.IsNullOrEmpty(user.Username))
-                {
-                    return BadRequest();
-                }
-
-                var response = await _accountService.LoginAsync(user.Username, user.Password);
-
-                if (response == null)
-                {
-                    return Unauthorized("User creditials did not matched");
-                }
-                var helper = new HelperUtility(_config);
-
-                var token = helper.GenerateJWT(response.Username);
-
-                return Ok(new { 
-                    token = token,
-                    data = response
-                });
+                Response.Cookies.Delete("buyerId");
+                return null;
             }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-           
+
+            return await _context.Baskets
+                .Include(i => i.Items)
+                .ThenInclude(p => p.Product)
+                .FirstOrDefaultAsync(x => x.BuyerId == buyerId);
         }
-
-        
-
-
     }
 }

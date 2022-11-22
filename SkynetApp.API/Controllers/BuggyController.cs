@@ -2,9 +2,8 @@
 
 namespace SkynetApp.API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class BuggyController : ControllerBase
+
+    public class BuggyController : BaseApiController
     {
         [HttpGet("not-found")]
         public ActionResult GetNotFound()

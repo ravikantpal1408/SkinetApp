@@ -142,7 +142,13 @@ namespace SkynetApp.API
             app.UseRouting();
             app.UseCors(opt =>
             {
-                opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
+                opt.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin()
+                    .WithExposedHeaders("WWW-Authenticate")
+                    .WithOrigins("http://localhost:3000/")
+                    .SetIsOriginAllowed(_ => true)
+                    .AllowCredentials();
             });
 
             app.UseAuthentication();
