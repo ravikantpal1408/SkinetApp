@@ -252,14 +252,14 @@ namespace SkynetApp.API.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "04789b83-19f1-4bf2-b01a-0e22e602290d",
+                            ConcurrencyStamp = "b2dfd93e-a2ed-4698-b5ea-e9c73a6d2967",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "2715caef-a105-44e5-84c6-a76e78eb3b5e",
+                            ConcurrencyStamp = "5c77aa7e-09f8-4538-b08b-71e5a0cdebf1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

@@ -3,10 +3,10 @@
     public class Basket
     {
         public int Id { get; set; }
-        public string BuyerId { get; set; }
+        public string BuyerId { get; set; } = string.Empty;
         public List<BasketItem> Items { get; set; } = new();
-        public string PaymentIntentId { get; set; }
-        public string ClientSecret { get; set; }
+        public string PaymentIntentId { get; set; } = string.Empty;
+        public string ClientSecret { get; set; } = string.Empty;
 
         public void AddItem(Product product, int quantity)
         {

@@ -12,7 +12,7 @@ using SkynetApp.API.Data;
 namespace SkynetApp.API.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20221116023724_InitialCreate")]
+    [Migration("20221126095911_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -127,6 +127,57 @@ namespace SkynetApp.API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("SkynetApp.API.Entities.Basket", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("BuyerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClientSecret")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentIntentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Baskets");
+                });
+
+            modelBuilder.Entity("SkynetApp.API.Entities.BasketItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("BasketId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BasketId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("BasketItems");
+                });
+
             modelBuilder.Entity("SkynetApp.API.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -203,14 +254,14 @@ namespace SkynetApp.API.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "b7b03ab6-40b0-4b89-8bd7-95ba8ad5556e",
+                            ConcurrencyStamp = "b2dfd93e-a2ed-4698-b5ea-e9c73a6d2967",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "43bddff6-147f-415e-992e-ffd364db731e",
+                            ConcurrencyStamp = "5c77aa7e-09f8-4538-b08b-71e5a0cdebf1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -373,6 +424,25 @@ namespace SkynetApp.API.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SkynetApp.API.Entities.BasketItem", b =>
+                {
+                    b.HasOne("SkynetApp.API.Entities.Basket", "Basket")
+                        .WithMany("Items")
+                        .HasForeignKey("BasketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SkynetApp.API.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Basket");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("SkynetApp.API.Entities.UserAddress", b =>
                 {
                     b.HasOne("SkynetApp.API.Entities.User", null)
@@ -380,6 +450,11 @@ namespace SkynetApp.API.Migrations
                         .HasForeignKey("SkynetApp.API.Entities.UserAddress", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SkynetApp.API.Entities.Basket", b =>
+                {
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("SkynetApp.API.Entities.User", b =>

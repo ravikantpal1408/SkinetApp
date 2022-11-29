@@ -6,7 +6,7 @@ import { store } from "../store/configureStore";
 
 const sleep = () => new Promise(resolve => setTimeout(resolve, 500));
 
-axios.defaults.baseURL = 'http://localhost:44396/api/';
+axios.defaults.baseURL = 'https://localhost:5001/api/';
 axios.defaults.withCredentials = true;
 
 const responseBody = (response: AxiosResponse) => response.data;
@@ -63,9 +63,9 @@ const requests = {
 }
 
 const Catalog = {
-    list: (params: URLSearchParams) => requests.get('products', params),
-    details: (id: number) => requests.get(`products/${id}`),
-    fetchFilters: () => requests.get('products/filters')
+    list: (params: URLSearchParams) => requests.get('Product', params),
+    details: (id: number) => requests.get(`Product/${id}`),
+    fetchFilters: () => requests.get('Product/filters')
 }
 
 const TestErrors = {

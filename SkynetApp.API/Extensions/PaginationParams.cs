@@ -4,7 +4,7 @@
     {
         private const int MaxPageSize = 50;
         public int PageNumber { get; set; } = 1;
-        private int _pageSize = 6;
+        private int _pageSize = 3;
         public int PageSize
         {
             get => _pageSize;
@@ -14,9 +14,9 @@
 
     public class ProductParams : PaginationParams
     {
-        public string OrderBy { get; set; }
-        public string SearchTerm { get; set; }
-        public string Types { get; set; }
-        public string Brands { get; set; }
+        public string OrderBy { get; set; } = string.Empty;
+        public string SearchTerm { get; set; } = string.Empty;
+        public string Types { get; set; } = string.Empty;
+        public string Brands { get; set; } = string.Empty;
     }
 }

@@ -1,13 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using SkynetApp.API.Entities;
 using SkynetApp.API.Services;
-using System.Text.Json.Serialization;
-using Newtonsoft;
+
 using SkynetApp.API.Helper;
 using AutoMapper;
 using SkynetApp.API.Data;
 using SkynetApp.API.Extensions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace SkynetApp.API.Controllers;
@@ -26,7 +24,7 @@ public class ProductController : BaseApiController
         _context = context;
     }
 
-    [HttpGet ("products")]
+    [HttpGet]
     public async Task<ActionResult<List<Product>>> GetProducts([FromQuery] ProductParams productParams)
     {
         var query = _context.Products
