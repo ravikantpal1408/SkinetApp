@@ -1,13 +1,12 @@
-﻿
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SkynetApp.API.Entities;
+using SkynetApp.API.Entities.OrderAggregate;
 
 namespace SkynetApp.API.Data
 {
-    public class StoreContext : IdentityDbContext<User, Role, int>
+    public class StoreContext : IdentityDbContext<User, Entities.Role, int>
     {
         public StoreContext(DbContextOptions options) : base(options)
         {
@@ -15,7 +14,7 @@ namespace SkynetApp.API.Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Basket> Baskets { get; set; }
-
+        public DbSet<Order> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -25,10 +24,10 @@ namespace SkynetApp.API.Data
                 .HasOne(a => a.Address)
                 .WithOne()
                 .HasForeignKey<UserAddress>(a => a.Id)
-            .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Role>()
-            .HasData(
+                .HasData(
                     new Role { Id = 1, Name = "Member", NormalizedName = "MEMBER" },
                     new Role { Id = 2, Name = "Admin", NormalizedName = "ADMIN" }
                 );

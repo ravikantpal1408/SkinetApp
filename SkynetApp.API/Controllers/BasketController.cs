@@ -65,7 +65,7 @@ namespace SkynetApp.API.Controllers
             return await _context.Baskets
                 .Include(i => i.Items)
                 .ThenInclude(p => p.Product)
-                .FirstOrDefaultAsync(x => x.BuyerId == Request.Cookies["buyerId"]);
+                .FirstOrDefaultAsync();
         }
 
         private Basket CreateBasket()

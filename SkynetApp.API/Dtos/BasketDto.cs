@@ -3,6 +3,8 @@
     public class BasketDto
     {
         public int Id { get; set; }
+
+        // GUID -> global unique identifier
         public string BuyerId { get; set; } = string.Empty;
         public List<BasketItemDto> Items { get; set; }= new List<BasketItemDto>();
         public string PaymentIntentId { get; set; } = string.Empty;

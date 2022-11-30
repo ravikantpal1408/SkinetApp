@@ -25,7 +25,6 @@ export function decrement(amount = 1) {
     }
 }
 
-// THUNK
 export default function counterReducer(state = initialState, action: any) {
     switch (action.type) {
         case INCREMENT_COUNTER:
