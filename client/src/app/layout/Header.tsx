@@ -38,12 +38,12 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
     const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0)
 
     return (
-        <AppBar position='static' sx={{ mb: 4 }}>
+        <AppBar position='static'>
             <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Box display='flex' alignItems='center'>
                     <Typography variant='h6' component={NavLink} exact to='/'
                         sx={navStyles}>
-                        RE-STORE
+                        Skinet
                     </Typography>
                     <Switch checked={darkMode} onChange={handleThemeChange} />
                 </Box>
@@ -58,6 +58,14 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
                             {title.toUpperCase()}
                         </ListItem>
                     ))}
+                    {user && user.roles?.includes('Admin') &&
+                    <ListItem
+                        component={NavLink}
+                        to={'/inventory'}
+                        sx={navStyles}
+                    >
+                        INVENTORY
+                    </ListItem>}
                 </List>
                 <Box display='flex' alignItems='center'>
                     <IconButton component={Link} to='/basket' size='large' sx={{ color: 'inherit' }}>
