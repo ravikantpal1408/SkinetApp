@@ -19,6 +19,7 @@ interface Props {
 }
 
 export default function ProductForm({ product, cancelEdit }: Props) {
+    console.info(product);
     const { control, reset, handleSubmit, watch, formState: {isDirty, isSubmitting} } = useForm({
         mode: 'all',
         resolver: yupResolver<any>(validationSchema)

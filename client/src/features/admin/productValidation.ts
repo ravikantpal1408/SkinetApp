@@ -12,3 +12,4 @@ export const validationSchema = yup.object({
         then: yup.mixed().required('Please provide an image')
     })
 })
+

@@ -17,7 +17,8 @@ namespace API.Services
 
         public async Task<PaymentIntent> CreateOrUpdatePaymentIntent(Basket basket)
         {
-            StripeConfiguration.ApiKey = _config["StripeSettings:SecretKey"];
+            var key  = _config["StripeSetting:SecretKey"];
+            StripeConfiguration.ApiKey = key;
 
             var service = new PaymentIntentService();
 

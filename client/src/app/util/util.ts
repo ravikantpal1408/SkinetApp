@@ -1,4 +1,5 @@
 export function getCookie(key: string) {
+  // console.table('key ',key)
   const b = document.cookie.match("(^|;)\\s*" + key + "\\s*=\\s*([^;]+)");
   return b ? b.pop() : "";
 }
